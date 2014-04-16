@@ -22,6 +22,5 @@ stackMethods.pop = function(){
 };
 
 stackMethods.size = function(){
-  console.log(this);
   return this.number;
 };
