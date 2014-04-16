@@ -15,7 +15,7 @@ var makeQueue = function(){
     var keyLength = Object.keys(storage).length;
     var output = storage[index-keyLength];
     delete storage[index-keyLength];
-    return [output, index, keyLength];
+    return output;
   };
 
   instance.size = function(){
