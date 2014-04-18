@@ -20,7 +20,6 @@ Graph.prototype.contains = function(node){
 };
 
 Graph.prototype.removeNode = function(node){
-  //debugger;
   var edges = this.nodes[node].edges;
   var keys = Object.keys(edges);
   if (keys.length === 0) {
@@ -34,7 +33,6 @@ Graph.prototype.removeNode = function(node){
 };
 
 Graph.prototype.getEdge = function(fromNode, toNode){
-  //debugger;
   return this.nodes[fromNode].edges[toNode] !== undefined;
 };
 
@@ -44,7 +42,6 @@ Graph.prototype.addEdge = function(fromNode, toNode){
 };
 
 Graph.prototype.removeEdge = function(fromNode, toNode){
-  //debugger;
   delete this.nodes[fromNode].edges[toNode];
   delete this.nodes[toNode].edges[fromNode];
   if (Object.keys(this.nodes[fromNode].edges).length === 0) {
