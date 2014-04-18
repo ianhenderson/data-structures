@@ -9,18 +9,12 @@ var makeBinarySearchTree = function(value){
 var BSTMethods = {};
 
 BSTMethods.insert = function(value){
-  debugger;
-  var node =  makeBinarySearchTree(value);
-  // path = path || this;
-  var dir = value > this.value ? this.right : this.left;
-
-  if (dir !== null) {
-    dir.insert(value);
+  var dir = value > this.value ? 'right' : 'left';
+  if (this[dir] !== null) {
+    this[dir].insert(value);
   } else {
-    dir = node;
+    this[dir] = makeBinarySearchTree(value);
   }
-
-  // if (node.value === this.value)
 };
 
 BSTMethods.contains = function(value){};
