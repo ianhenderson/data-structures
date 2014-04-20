@@ -5,30 +5,68 @@ var HashTable = function(){
 };
 
 HashTable.prototype.insert = function(k, v){
-  var i;
-  this._size++;
-  debugger;
-  if (this._size >= 7){
-    this._limit = 2 * this._limit;
-    console.log("limit", this._limit);
-    this._tmpStorage = makeLimitedArray(this._limit);
-    this._storage.each(function(value, index){
-        i = getIndexBelowMaxForKey(value, this._limit);
-        this._tmpStorage.set(i,value);
-    });
-    this._storage = this._tmpStorage;
+  var i = getIndexBelowMaxForKey(k, this._limit);
+  var tupleArray = this._storage.get(i) || [];
+
+  for (var j = 0; j < tupleArray.length; j++) {
+    var tuple = tupleArray[j];
+    if (tuple[0] === k) {
+      tuple[1] = v;
+      return;
+    }
   }
-  i = getIndexBelowMaxForKey(k, this._limit);
-  this._storage.set(i,v);
+
+  tupleArray.push([k,v]);
+  this._storage.set(i, tupleArray);
+  this._size++;
+  if (this._size > this._limit*0.75){
+    this.resize(this._limit*2);
+  }
 };
 
 HashTable.prototype.retrieve = function(k){
   var i = getIndexBelowMaxForKey(k, this._limit);
-  return this._storage.get(i);
+  var tupleArray = this._storage.get(i) || [];
+
+  for (var j = 0; j < tupleArray.length; j++) {
+    var tuple = tupleArray[j];
+    if (tuple[0] === k) {
+      return tuple[1];
+    }
+  }
+
+  return null;
 };
 
 HashTable.prototype.remove = function(k){
-  this._size--;
-  this.insert(k, null);
+  var i = getIndexBelowMaxForKey(k, this._limit);
+  var tupleArray = this._storage.get(i) || [];
+
+  for (var j = 0; j < tupleArray.length; j++) {
+    var tuple = tupleArray[j];
+    if (tuple[0] === k) {
+      tupleArray.splice(j,1);
+      this._size--;
+      if (this._size < this._limit*0.25){
+        this.resize(Math.floor(this._limit/2));
+      }
+      return tuple[1];
+    }
+  }
 };
 
+HashTable.prototype.resize = function(newSize){
+  var oldstorage = this._storage;
+  this._storage = makeLimitedArray(newSize);
+  this._limit = newSize;
+  this._size = 0;
+  var self = this;
+
+  oldstorage.each(function(tupleArray){
+    if (!tupleArray){ return; }
+    for (var i = 0; i<tupleArray.length; i++){
+      var tuple = tupleArray[i];
+      self.insert(tuple[0], tuple[1]);
+    }
+  })
+};
