@@ -28,4 +28,10 @@ BSTMethods.contains = function(value){
   }
 };
 
-BSTMethods.depthFirstLog = function(callback){};
+BSTMethods.depthFirstLog = function(callback){
+  callback(this.value);
+  if (this.left){ this.left.depthFirstLog(callback);}
+  if (this.right){ this.right.depthFirstLog(callback);}
+};
+
+BSTMethods.breadthFirstLog = function(callback){};
