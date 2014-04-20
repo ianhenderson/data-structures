@@ -1,4 +1,5 @@
 var assert = chai.assert;
+var expect = chai.expect;
 
 describe("binarySearchTree", function() {
   var binarySearchTree;
@@ -30,7 +31,7 @@ describe("binarySearchTree", function() {
     assert.isFalse(binarySearchTree.contains(8));
   });
 
-it("should execute a callback on every value in a tree using 'depthFirstLog'", function(){
+  it("should execute a callback on every value in a tree using 'depthFirstLog'", function(){
     var array = [];
     var func = function(value){ array.push(value); }
     binarySearchTree.insert(2);
@@ -39,4 +40,16 @@ it("should execute a callback on every value in a tree using 'depthFirstLog'", f
     binarySearchTree.depthFirstLog(func);
     assert.notStrictEqual(array, [5,2,1,3]);
     expect(JSON.stringify(array)).to.equal(JSON.stringify([5,2,1,3]));
-  });});
+  });
+
+  it("should execute a callback on every value in a tree using 'breadthFirstLog'", function(){
+    var array = [];
+    var func = function(value){ array.push(value); }
+    binarySearchTree.insert(2);
+    binarySearchTree.insert(3);
+    binarySearchTree.insert(1);
+    binarySearchTree.depthFirstLog(func);
+    assert.notStrictEqual(array, [5,2,3,1]);
+    expect(JSON.stringify(array)).to.equal(JSON.stringify([5,2,3,1]));
+  });
+});
