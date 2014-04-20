@@ -34,4 +34,17 @@ BSTMethods.depthFirstLog = function(callback){
   if (this.right){ this.right.depthFirstLog(callback);}
 };
 
-BSTMethods.breadthFirstLog = function(callback){};
+BSTMethods.breadthFirstLog = function(callback, queue){
+  queue = queue || [];
+  if (queue.length === 0) { queue.push(this); }
+  var current = queue.shift();
+  callback(current.value);
+  if (this.left) { queue.push(this.left); }
+  if (this.right) { queue.push(this.right); }
+  if (queue.length === 0) { return; }
+  else {
+    var next = queue[0];
+    next.breadthFirstLog(callback, queue);
+  }
+
+};
