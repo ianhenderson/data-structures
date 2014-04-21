@@ -50,3 +50,10 @@ treeMethods.contains = function (target, memo) {
   return memo;
 };
 
+treeMethods.traverse = function(callback){
+  callback(this.value);
+  for (var i; i<this.children.length;i++){
+    this.children[i].traverse(callback);
+  }
+};
+
